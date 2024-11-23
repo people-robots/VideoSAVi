@@ -1,0 +1,155 @@
+---
+layout: ../layouts/Layout.astro
+title: "VideoSAVi: Self-Aligned Video Language Models without Human Supervision"
+description: VideoSAVi overview
+#favicon: favicon.svg
+#thumbnail: screenshot.png
+---
+
+import ImageCarousel from '../components/ImageCarousel';
+
+
+import Layout from "../layouts/Layout.astro";
+
+import Header from "../components/Header.astro";
+import Video from "../components/Video.astro";
+import HighlightedSection from "../components/HighlightedSection.astro";
+import SmallCaps from "../components/SmallCaps.astro";
+import Figure from "../components/Figure.astro";
+import Image from "../components/Image.astro";
+import TwoColumns from "../components/TwoColumns.astro";
+import YouTubeVideo from "../components/YouTubeVideo.astro";
+import LaTeX from "../components/LaTeX.astro";
+
+import final_pipeline from "../assets/final_pipeline.png";
+import transformer from "../assets/transformer.webp";
+import radar from "../assets/radar.png";
+import Splat from "../components/Splat.tsx"
+import web from "../assets/web.png"
+
+import CodeBlock from "../components/CodeBlock.astro";
+import Table from "../components/Table.astro";
+export const components = {pre: CodeBlock, table: Table}
+
+<Header
+  title={frontmatter.title}
+  authors={[
+    {
+      name: "Yogesh Kulkarni",
+      url: "https://yogkul2000.github.io/",
+      institution: "Arizona State University",
+    },
+    {
+      name: "Pooyan Fazli",
+      url:"https://www.pooyanfazli.com/",
+      institution: "Arizona State University",
+    },
+    ,
+  ]}
+  links={[
+    {
+      name: "Paper (coming soon)",
+      url: "",
+      icon: "fa-solid:file-pdf",
+    },
+    {
+      name: "Code (coming soon)",
+      url: "",
+      icon: "mdi:github",
+    },
+    {
+      name: "arXiv (coming soon)",
+      url: "",
+      icon: "academicons:arxiv",
+    },
+  ]}
+  />
+
+
+  <Figure caption="Overview of VideoSAVi's self-training pipeline with five key components.">
+    <Image source={final_pipeline} altText="VideoSAVi Pipeline Diagram" />
+</Figure>
+  
+  
+
+
+
+
+
+
+<HighlightedSection color="#f8f9fa">
+  <div class="text-justify mx-auto text-center w-full max-w-3xl flex flex-col items-center">
+    <h2 class="text-center font-semibold text-3xl mb-6">Abstract</h2>
+    <p>
+      Recent advances in <strong>vision-language models (VLMs)</strong> have significantly enhanced video understanding tasks. <strong>Instruction tuning</strong> (i.e., fine-tuning models on datasets of instructions paired with desired outputs) has been key to improving model performance. However, creating diverse instruction-tuning datasets is challenging due to high annotation costs and the complexity of capturing temporal information in videos. Existing approaches often rely on <strong>large language models</strong> to generate instruction-output pairs, which can limit diversity and lead to responses that lack grounding in the video content.
+    </p>
+    <p>
+      To address this, we propose <strong>VideoSAVi (Self-Aligned Video Language Model)</strong>, a novel self-training pipeline that enables VLMs to <strong>generate their own training data</strong> without extensive manual annotation. The process involves three stages: (1) <strong>generating diverse video-specific questions</strong>, (2) <strong>producing multiple candidate answers</strong>, and (3) <strong>evaluating these responses</strong> for alignment with the video content. This self-generated data is then used for <strong>direct preference optimization (DPO)</strong>, allowing the model to refine its own high-quality outputs and improve alignment with video content.
+    </p>
+    <p>
+      Our experiments demonstrate that even <strong>smaller models (0.5B and 7B parameters)</strong> can effectively use this self-training approach, outperforming previous methods and achieving results comparable to those trained on proprietary preference data. <strong>VideoSAVi shows significant improvements</strong> across multiple benchmarks: <strong>up to 28\% on multi-choice QA, 8\% on zero-shot open-ended QA, and 12\% on temporal reasoning benchmarks</strong>. These results demonstrate the effectiveness of our self-training approach in enhancing video understanding while reducing dependence on proprietary models.
+    </p>
+  </div>
+</HighlightedSection>
+
+
+
+
+
+<h2 class="font-semibold text-3xl">🎯 Motivation & Challenges</h2>
+
+<div class="text-justify">
+  <p>
+    Developing high-quality video instruction datasets is expensive and often relies on proprietary models like GPT-4V. There is a pressing need for improved temporal understanding in video-language models and maintaining visual grounding in their responses. This raises key research questions: How can synthetic data be leveraged to enhance Video-LLM performance without expensive human annotations or proprietary APIs? Moreover, how can we ensure that synthetic data aligns with video content to maintain the accuracy and relevance of model responses?
+  </p>
+</div>
+&nbsp;
+
+<h2 class="font-semibold text-3xl">🔬 Method: VideoSAVi Pipeline</h2>
+<Figure caption="Overview of VideoSAVi's self-training pipeline with five key components.">
+    <Image source={final_pipeline} altText="VideoSAVi Pipeline Diagram" />
+</Figure>
+&nbsp;
+
+<h2 class="font-semibold text-3xl">Our Pipeline</h2>
+
+<div class="text-justify">
+  <p>
+    VideoSAVi operates through a five-stage pipeline designed to enhance video-language models. First, it generates diverse video-specific questions ("What," "Why," and "How") from captions, targeting aspects like visual recognition and temporal reasoning. Next, it produces multiple candidate answers at varying temperatures, balancing focused and creative responses. The model then evaluates these answers using a structured template to score relevance, accuracy, temporal grounding, and clarity. This is followed by filtering responses with CLIP similarity scores to ensure alignment with video content, adding a crucial visual grounding check. Finally, the model is fine-tuned using a CLIP-adjusted DPO loss, optimizing for both visual and linguistic quality.
+  </p>
+</div>
+&nbsp;
+
+
+<h2 class="font-semibold text-3xl">📊 Quantitative Results </h2>
+
+### Temporal Reasoning Benchmark (TempCompass)
+
+| **Method**           | **LLM** | **Action** | **Direction** | **Speed** | **Event** | **Attribute** | **Average** |
+|-----------------------|:-------:|:-------:|:-------:|:-------:|:-------:|:--------:|:-------:|
+| VideoSAVi-Vicuna      |   7B    |  67.7   |  41.4   |  39.4   |  40.3   |   49.9   |  47.7   |
+| VideoSAVi-Qwen        |  0.5B   |  64.2   |  42.7   |  44.7   |  44.5   |   47.9   |  48.8   |
+| VideoSAVi-Qwen        |   7B    |  83.2   |  42.3   |  48.4   |  46.9   |   49.6   |  54.1   |
+### Multi-Choice QA Benchmarks
+<Figure caption="VideoSAVi achieves significant improvements across multiple benchmarks: up to 28% on multi-choice QA, 8% on zero-shot open-ended QA, and 12% on temporal reasoning compared to existing methods">
+  <div class="w-[500px] md:w-[600px] mx-auto"> {/* Increased from w-64/w-80 */}
+    <Image 
+      source={radar} 
+      altText="Performance comparison across multiple benchmarks shows VideoSAVi-Qwen-7B outperforming baselines including Video-LLaVA, LLaVA-NeXT-DPO, LLaVA-HOUND-DPO, i-SRT and SF-LLaVA on NExTQA, EgoQA and IntentQA tasks"
+    />
+  </div>
+</Figure>
+&nbsp;
+<h2 class="font-semibold text-3xl">🧪 Experiments </h2>
+## 
+  <ImageCarousel client:load />
+
+<h2 class="font-semibold text-3xl">👁️ Qualitative Results </h2>
+<Figure caption="Comparison of model responses across different scenarios. Left: While baseline models add unnecessary details (laps gently) or make incorrect observations (left hands), VideoSAVi provides precise and factual descriptions of the drinking patterns. Right: VideoSAVi correctly identifies the natural demonstration method (opening his own mouth) while other models incorrectly assume use of tools or hands.">
+  <div class="w-[2400px] md:w-[2200px] mx-auto"> {/* Increased from w-64/w-80 */}
+    <Image 
+      source={web} 
+      altText="Performance comparison across multiple benchmarks shows VideoSAVi-Qwen-7B outperforming baselines including Video-LLaVA, LLaVA-NeXT-DPO, LLaVA-HOUND-DPO, i-SRT and SF-LLaVA on NExTQA, EgoQA and IntentQA tasks"
+    />
+  </div>
+</Figure>

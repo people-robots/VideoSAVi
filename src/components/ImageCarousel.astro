@@ -1,0 +1,74 @@
+---
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination} from 'swiper/modules';
+import type { SwiperModule } from 'swiper/types'; 
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// Define the type for results
+type Result = {
+  id: number;
+  src: string;
+  alt: string;
+  label: string;
+};
+
+// Define the results array with unique IDs
+const results: Result[] = [
+  { id: 1, src: '/src/assets/TempCompass.png', alt: 'TempCompass Results', label: 'TempCompass' },
+  { id: 2, src: '/src/assets/MultiChoice.png', alt: 'Multi-Choice Results', label: 'Multi-choice' },
+  { id: 3, src: '/src/assets/OpenEnded.png', alt: 'Open-Ended Results', label: 'Open-ended' },
+];
+
+// Define Swiper modules array
+const swiperModules: SwiperModule[] = [Navigation, Pagination];
+---
+
+<Swiper
+  modules={swiperModules}
+  navigation={true}
+  pagination={{ clickable: true }}
+  spaceBetween={30}
+  slidesPerView={1}
+  className="mySwiper"
+>
+  {results.map((result) => (
+    <SwiperSlide>
+      <div class="slide-content">
+        <img src={result.src} alt={result.alt} class="slide-image" />
+        <p class="slide-label">{result.label}</p>
+      </div>
+    </SwiperSlide>
+  ))}
+</Swiper>
+
+<style>
+  .mySwiper {
+    width: 100%;
+    height: auto;
+  }
+
+  .slide-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .slide-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .slide-label {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+  }
+</style>
