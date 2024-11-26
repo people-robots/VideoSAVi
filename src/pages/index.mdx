@@ -2,7 +2,7 @@
 layout: ../layouts/Layout.astro
 title: "VideoSAVi: Self-Aligned Video Language Models without Human Supervision"
 description: VideoSAVi overview
-#favicon: favicon.svg
+favicon: favicon.png
 #thumbnail: screenshot.png
 ---
 
@@ -31,8 +31,14 @@ import CodeBlock from "../components/CodeBlock.astro";
 import Table from "../components/Table.astro";
 export const components = {pre: CodeBlock, table: Table}
 
+<div class="title-section text-center max-w-5xl mx-auto">
+  <h1 class="flex items-center justify-center gap-2">
+    <img src="favicon.png" class="w-[1.5em] h-[1.5em]" alt="VideoSAVi Logo"/>
+    <span>VideoSAVi</span>
+  </h1>
+  <h2 class="whitespace-nowrap">Self-Aligned Video Language Models without Human Supervision</h2>
+</div>
 <Header
-  title={frontmatter.title}
   authors={[
     {
       name: "Yogesh Kulkarni",
@@ -44,32 +50,25 @@ export const components = {pre: CodeBlock, table: Table}
       url:"https://www.pooyanfazli.com/",
       institution: "Arizona State University",
     },
-    ,
   ]}
   links={[
     {
-      name: "Paper (coming soon)",
+      name: "Paper",
       url: "",
       icon: "fa-solid:file-pdf",
     },
     {
-      name: "Code (coming soon)",
+      name: "Code",
       url: "",
       icon: "mdi:github",
     },
     {
-      name: "arXiv (coming soon)",
+      name: "arXiv",
       url: "",
       icon: "academicons:arxiv",
     },
   ]}
-  />
-
-
-  <Figure caption="Overview of VideoSAVi's self-training pipeline with five key components.">
-    <Image source={final_pipeline} altText="VideoSAVi Pipeline Diagram" />
-</Figure>
-  
+/>
   
 
 
@@ -77,7 +76,7 @@ export const components = {pre: CodeBlock, table: Table}
 
 
 
-<HighlightedSection color="#f8f9fa">
+
   <div class="text-justify mx-auto text-center w-full max-w-3xl flex flex-col items-center">
     <h2 class="text-center font-semibold text-3xl mb-6">Abstract</h2>
     <p>
@@ -90,8 +89,8 @@ export const components = {pre: CodeBlock, table: Table}
       Our experiments demonstrate that even <strong>smaller models (0.5B and 7B parameters)</strong> can effectively use this self-training approach, outperforming previous methods and achieving results comparable to those trained on proprietary preference data. <strong>VideoSAVi shows significant improvements</strong> across multiple benchmarks: <strong>up to 28\% on multi-choice QA, 8\% on zero-shot open-ended QA, and 12\% on temporal reasoning benchmarks</strong>. These results demonstrate the effectiveness of our self-training approach in enhancing video understanding while reducing dependence on proprietary models.
     </p>
   </div>
-</HighlightedSection>
 
+&nbsp;
 
 
 
@@ -153,3 +152,12 @@ export const components = {pre: CodeBlock, table: Table}
     />
   </div>
 </Figure>
+&nbsp;
+<h3 class="font-semibold text-3xl">Bibtex </h3>
+```bibtex
+@misc{yogesh2024,
+  author = "{Yogesh Kulkarni, Pooyan Fazli}",
+  title = "VideoSAVi: Self-Aligned Video Language Models without Human Supervision",
+  year = "2024",
+}
+```

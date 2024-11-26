@@ -31,9 +31,9 @@ const prefix = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
+    href="https://fonts.googleapis.com/css2?family=Google+Sans&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.css"
@@ -70,6 +70,7 @@ const prefix = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
   body {
     font-family: "Noto Sans", sans-serif;
     @apply text-zinc-900 bg-zinc-50;
+    background-color: white;
   }
   a {
     @apply text-blue-500 hover:underline;
@@ -104,5 +105,26 @@ const prefix = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
   }
   ol {
     @apply prose list-decimal list-inside w-full;
+  }
+  .videosavi {
+    font-family: "Google Sans", sans-serif;
+    font-variant: small-caps;
+    font-weight: bold;
+  }
+  h1 {
+    @apply text-5xl text-center font-medium;
+    font-family: "Google Sans", sans-serif;
+  }
+  .title-section h1 {
+    @apply text-5xl text-center;
+    font-family: "Google Sans", sans-serif;
+    font-weight: 400;
+  }
+
+  .title-section h2 {
+    @apply text-3xl text-center;
+    font-family: "Noto Sans", sans-serif;
+    color: #666;
+    font-weight: normal;
   }
 </style>
