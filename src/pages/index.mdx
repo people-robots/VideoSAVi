@@ -31,13 +31,16 @@ import CodeBlock from "../components/CodeBlock.astro";
 import Table from "../components/Table.astro";
 export const components = {pre: CodeBlock, table: Table}
 
+import "../styles/gradient-title.css";
+
 <div class="title-section text-center max-w-5xl mx-auto">
   <h1 class="flex items-center justify-center gap-2">
-    <img src="favicon.png" class="w-[1.5em] h-[1.5em]" alt="VideoSAVi Logo"/>
-    <span>VideoSAVi</span>
+    <img src="favicon.png" class="w-[1.5em] h-[1.5em]" alt="VideoSAVi Logo" />
+    <span class="gradient-title">VideoSAVi</span>
   </h1>
   <h2 class="whitespace-nowrap">Self-Aligned Video Language Models without Human Supervision</h2>
 </div>
+
 <Header
   authors={[
     {
@@ -109,8 +112,6 @@ export const components = {pre: CodeBlock, table: Table}
     <Image source={final_pipeline} altText="VideoSAVi Pipeline Diagram" />
 </Figure>
 &nbsp;
-
-<h2 class="font-semibold text-3xl">Our Pipeline</h2>
 
 <div class="text-justify">
   <p>
