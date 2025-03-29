@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="VideoSAVi: Self-Aligned Video Language Models without Human Supervision">
+  <meta name="keywords" content="VideoSAVi, Video-LLM, Self-Alignment, Video Understanding, DPO">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VideoSAVi: Self-Aligned Video Language Models without Human Supervision</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+
+  <style>
+    .placeholder-box {
+      padding: 10px;
+      margin: 20px 0;
+      text-align: center;
+      color: #777;
+    }
+    .placeholder-box img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+    /* Added CSS for animated gradient title */
+    .animated-gradient-title {
+      background-image: linear-gradient(to right, #4a90e2, #8e44ad, #c86dd7); /* Blue to Purple/Magenta Gradient */
+      background-size: 200% auto; /* Make background wider for animation */
+      color: transparent; /* Hide original text color */
+      background-clip: text;
+      -webkit-background-clip: text; /* Cross-browser compatibility */
+      animation: gradient-animation 4s linear infinite; /* Apply animation */
+      display: inline-block; /* Helps with background clipping */
+      vertical-align: middle; /* Maintain vertical alignment */
+    }
+
+    @keyframes gradient-animation {
+      0% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+      100% { background-position: 0% center; }
+    }
+    /* End Added CSS */
+  </style>
+
+</head>
+
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+         <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More Research
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">
+               VideoPASTA
+             </a>
+             </div>
+        </div>
+       </div>
+    </div>
+  </nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title is-bold">
+            <span class="animated-gradient-title">VideoSAVi</span>
+          </h1>
+          <h2 class="subtitle is-3 publication-subtitle">
+            Self-Aligned Video Language Models without Human Supervision
+          </h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://yogkul2000.github.io/">Yogesh Kulkarni</a><sup style="color:#6fbf73;">1</sup>,</span>
+            <span class="author-block"><a href="https://www.pooyanfazli.com/">Pooyan Fazli</a><sup style="color:#6fbf73;">1</sup></span>
+             </div>
+
+          <div class="is-size-5 publication-authors">
+             <span class="author-block"><sup style="color:#6fbf73;">1</sup>Arizona State University</span><br>
+           </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+               <span class="link-block">
+                 <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+               <span class="link-block">
+                 <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+               <span class="link-block">
+                 <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser Section -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="content has-text-centered">
+       <div class="placeholder-box">
+         <img src="static/images/pipeline.png" alt="VideoSAVi Pipeline Overview">
+       </div>
+       <p> Overview of the VideoSAVi self-alignment pipeline. It iteratively generates questions and responses, critiques the responses, refines them based on the critique, and uses the resulting preference pairs for DPO training, enhancing video reasoning without external supervision. </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Recent advances in video-large language models (Video-LLMs) have significantly progressed video understanding. However, current preference optimization methods often rely on costly proprietary APIs or ground-truth captions to generate preference data, hindering scalability. To address this, we introduce VideoSAVi (Self-Aligned Video Language Model), a self-training pipeline enabling Video-LLMs to improve their reasoning over video content without external supervision.
+          </p>
+          <p>
+            Our approach features a self-critiquing mechanism where the model identifies reasoning errors in its initial responses and generates improved alternatives, creating preference pairs directly from video content. VideoSAVi applies Direct Preference Optimization (DPO) using this data to iteratively refine the model, enhancing both temporal and spatial reasoning.
+          </p>
+           <p>
+            Experiments demonstrate that VideoSAVi achieves state-of-the-art performance on MVBench (74.0%) and delivers significant improvements across other benchmarks, including a 3.9% gain on PerceptionTest and a 6.8% improvement on EgoSchema, compared to baseline models. Our model-agnostic and computationally efficient approach (requiring only 32 frames per video) offers a promising direction for self-aligned video understanding.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered">
+            <div class="column is-four-fifths">
+              <h2 class="title is-3 has-text-centered">Method</h2>
+              <div class="content has-text-justified">
+                <p>
+                  VideoSAVi employs an iterative self-alignment process consisting of four key stages, operating entirely without external supervision beyond the initial model and unlabeled videos:
+                </p>
+                <ol>
+                    <li><b>Question Generation:</b> The baseline Video-LLM is prompted to generate reasoning-focused questions about a given video, targeting both spatial relationships (object locations, visual details) and temporal sequences (event order, causality, state changes).</li>
+                    <li><b>Initial Response Generation:</b> The same model generates initial answers (a₀) to these questions based on the video content. These answers may contain factual errors or reasoning flaws.</li>
+                    <li><b>Self-Critique:</b> The model acts as its own critic, evaluating the initial response (a₀) against the video content. Guided by a specific prompt, it identifies inconsistencies, factual errors (spatial or temporal), hallucinations, or omissions, producing a critique (c).</li>
+                    <li><b>Response Refinement & Preference Pair Creation:</b> Using the original question (q), the initial response (a₀), and the self-critique (c), the model generates a revised, improved response (a₁). The pair (a₁, a₀) forms a preference pair, where a₁ is preferred over a₀.</li>
+                    <li><b>Optimization:</b> These self-generated preference pairs are used to fine-tune the model using Direct Preference Optimization (DPO), teaching the model to favor the refined, more accurate responses.</li>
+                </ol>
+                <p>This cycle is repeated, allowing the model to progressively improve its video understanding capabilities by learning from its own mistakes.</p>
+             </div>
+            </div>
+          </div>
+    </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Results</h2>
+
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h3 class="title is-4 has-text-centered">Main Results (Table 1)</h3>
+        <div class="content has-text-justified">
+           <p>
+              We evaluated VideoSAVi extensively against baseline models (built on InternVL2.5) and state-of-the-art Video-LLMs across multiple benchmarks, as shown in Table 1. VideoSAVi achieves substantial gains over the foundation InternVL2.5 model across all benchmarks: +0.8% on TempCompass, +3.9% on PerceptionTest, +3.6% on NeXTQA, +4.2% on MVBench, +6.8% on EgoSchema, and +2.0% on LongVideoBench.
+           </p>
+           <p>
+              While standard fine-tuning (SFT and SFT+) shows incremental gains, VideoSAVi's self-alignment approach yields significantly stronger results. Notably, it overcomes the limitations of prior preference optimization methods like Hound-DPO, which relies on text-based ranking and shows performance degradation on benchmarks like MVBench (-5.6%) and EgoSchema (-3.5%), highlighting the inadequacy of text-only preferences for video understanding. Our method also outperforms TPO, which focuses solely on temporal aspects and fails to significantly improve temporal understanding, whereas VideoSAVi delivers consistent gains across both spatial and temporal dimensions.
+           </p>
+           <p>
+              VideoSAVi sets a new state-of-the-art on MVBench (74.0%), surpassing models like Qwen2-VL by a large margin (+9.1%). On NeXTQA, it outperforms the previous best, LLaVA-OneVision, by +1.3%. While LLaVA-Video leads on PerceptionTest and LLaVA-OneVision on EgoSchema, VideoSAVi demonstrates superior overall generalization and consistency across the diverse set of benchmarks, redefining robust video understanding through self-alignment.
+          </p>
+           <div class="placeholder-box">
+               <img src="static/images/main_table.png" alt="Main Benchmark Results (Table 1)">
+           </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h3 class="title is-4 has-text-centered">Ablation Studies</h3>
+          <div class="content has-text-justified">
+            <p>
+                Our ablation studies highlight the effectiveness of the VideoSAVi framework:
+            </p>
+            <ul>
+              <li><b>Reasoning Errors Across Iterations (Table 2):</b> Error analysis confirms a substantial reduction in reasoning errors across iterations, validating that the self-alignment process leads to genuine improvement.</li>
+                <li><b>Generalization (Table 3):</b> VideoSAVi exhibits strong generalization to unseen questions, videos, and domains, significantly outperforming methods like Hound-DPO which suffer from large generalization gaps.</li>
+                <li><b>Self-Critique vs. External Critics (Table 5):</b> Integrating the critique mechanism directly within the model (self-critique) is more effective than relying on external critics like GPT-4o.</li>
+                <li><b>Parameter Efficiency (Table 6):</b> VideoSAVi enables smaller models to achieve performance comparable to or exceeding larger baseline models, demonstrating that targeted alignment is highly parameter-efficient.</li>
+            </ul>
+             <div class="columns is-multiline">
+                <div class="column is-half">
+                    <div class="placeholder-box">
+                         <img src="static/images/reasoning_errors.png" alt="Reasoning Error Ablation (Table 2)">
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="placeholder-box">
+                         <img src="static/images/generalization.png" alt="Generalization Results (Table 3)">
+                    </div>
+                </div>
+                <div class="column is-half">
+                     <div class="placeholder-box">
+                         <img src="static/images/critics.png" alt="Critic Comparison Ablation (Table 5)">
+                     </div>
+                 </div>
+                <div class="column is-half">
+                    <div class="placeholder-box">
+                         <img src="static/images/parameter_eff.png" alt="Parameter Efficiency Results (Table 6)">
+                    </div>
+                </div>
+             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h3 class="title is-4 has-text-centered">Qualitative Examples</h3>
+          <div class="content has-text-justified">
+             <p>
+                VideoSAVi effectively corrects various reasoning errors made by the baseline model, such as temporal hallucinations, spatial misplacements, and object hallucinations.
+             </p>
+             <div class="placeholder-box">
+                 <img src="static/images/qualitative.png" alt="Qualitative Correction Examples (Figure 5)">
+             </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3 has-text-centered">BibTeX</h2>
+    <pre><code>@misc{videosavi2025kulkarni,
+  title     = {VideoSAVi: Self-Aligned Video Language Models without Human Supervision},
+  author    = {Kulkarni, Yogesh and Fazli, Pooyan},
+  year      = {2024},
+  eprint    = {arXiv:XXXX.XXXXX}, 
+  archivePrefix = {arXiv},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+     </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            Website template adapted from <a href="https://nerfies.github.io/">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+  if ($navbarBurgers.length > 0) {
+    $navbarBurgers.forEach( el => {
+      el.addEventListener('click', () => {
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+        el.classList.toggle('is-active');
+        if ($target) {
+            $target.classList.toggle('is-active');
+        }
+      });
+    });
+  }
+
+  const carousels = document.querySelectorAll('#results-carousel');
+  if (carousels.length > 0) {
+      carousels.forEach(carousel => {
+          bulmaCarousel.attach(carousel, {
+              slidesToScroll: 1,
+              slidesToShow: 1,
+              infinite: true,
+              autoplay: true,
+              autoplaySpeed: 5000,
+          });
+      });
+  }
+});
+</script>
+
+</body>
+</html>
